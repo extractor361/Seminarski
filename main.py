@@ -119,29 +119,28 @@ class Biblioteka:
         class Baza_Podataka:
 
             def konekcija(self):
-                print("konekcija modul pozvan")
+                print("konekcija metod pozvan")
                 konekcija=sqlite3.connect("Baza.db")
                 kursor=konekcija.cursor()
-                kursor.execute("CREATE VIRTUAL TABLE if not exists Knjigee USING FTS5(Broj, Naziv, Autor)")
                 kursor.execute("CREATE TABLE if not exists Knjige(Broj text, Naziv text, Autor text, Kolicina text)")
                 kursor.execute("create table if not exists Clanovi(Broj text, Ime text, Prezime text,Pol text, Adresa text, Kontakt text, Clanstvo text)")
                 kursor.execute("create table if not exists Glavni(Broj text, Ime text, Prezime text, Adresa text, Kontakt text, Autor text,Naziv text, Datum_U text, Datum_V text)")
                 konekcija.commit()
                 konekcija.close()
-                print("Konekcija modul zavrsen")
+                print("Konekcija metod zavrsen")
                 #Definisanje metoda za knjige
             def Dodaj_Knjige(self,Broj,Naziv,Autor, Kolicina):
-                print("Dodavanje knjiga modul pozvan")
+                print("Dodavanje knjiga metod pozvan")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
                 query="insert into Knjige values(?,?,?,?)"
                 kursor.execute(query,(Broj,Naziv,Autor,Kolicina))
                 konekcija.commit()
                 konekcija.close()
-                print("Dodavanje knjige modul zavrsen.")
+                print("Dodavanje knjige metod zavrsen.")
 
             def Prikazi_Knjige(self):
-                print("Prikazivanje knjiga modul pozvan")
+                print("Prikazivanje knjiga metod pozvan")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
                 kursor.execute("select * from Knjige")
@@ -157,10 +156,10 @@ class Biblioteka:
                 kursor = konekcija.cursor()
                 Query="select * from Knjige where Naziv=?"
                 kursor.execute(Query,(Naziv,))
-                global kurac
-                kurac=[]
-                kurac=kursor.fetchone()
-                return kurac
+                global book
+                book=[]
+                book=kursor.fetchone()
+                return book
                 konekcija.commit()
                 konekcija.close()
 
@@ -199,7 +198,7 @@ class Biblioteka:
 
 
             def Brisanje_Knjige(self,Naziv):
-                print("Pozivanja modula brisanja knjige")
+                print("Pozivanja metod brisanja knjige")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
                 query="delete from Knjige where Naziv=?"
@@ -207,7 +206,7 @@ class Biblioteka:
                 konekcija.commit()
                 konekcija.close()
             def Revidiranje_Kolicina_plus(self, Naziv=""):
-                print("Pozivanja modula revidiranja kolicine")
+                print("Pozivanja metod revidiranja kolicine")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
 
@@ -216,7 +215,7 @@ class Biblioteka:
                 konekcija.close()
                 print("revidiranje pozvano")
             def Revidiranje_Kolicina_minus(self, Naziv=""):
-                print("Pozivanja modula revidiranja kolicine")
+                print("Pozivanja metod revidiranja kolicine")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
 
@@ -266,7 +265,7 @@ class Biblioteka:
                 konekcija.close()
 
             def Prikazi_Clanove(self):
-                print("Prikazivanje svih clanova modul pozvan")
+                print("Prikazivanje svih clanova metod pozvan")
                 konekcija = sqlite3.connect("Baza.db")
                 kursor = konekcija.cursor()
                 kursor.execute("select * from Clanovi")
@@ -274,7 +273,7 @@ class Biblioteka:
                 konekcija.commit()
                 konekcija.close()
                 return rows
-                print("Prikazivanje clanova metod pozvan")
+                print("Prikazivanje clanova metod zavrsen")
 
             def Brisanje_Clanova(self, Broj):
                 print("Metoda brisanja clan pozvan")
@@ -547,15 +546,15 @@ class Biblioteka:
             print("printanje knjige")
             print(knjiga)
             baza.Prikazi_Knjigu(knjiga[0])
-            print(kurac)
+            print(book)
             self.Knjiga_Id_entry.delete(0,END)
-            self.Knjiga_Id_entry.insert(END,kurac[0])
+            self.Knjiga_Id_entry.insert(END,book[0])
             self.Knjiga_Ime_entry.delete(0, END)
-            self.Knjiga_Ime_entry.insert(END,kurac[1])
+            self.Knjiga_Ime_entry.insert(END,book[1])
             self.Autor_entry.delete(0, END)
-            self.Autor_entry.insert(END,kurac[2])
+            self.Autor_entry.insert(END,book[2])
             self.Kolicina_entry.delete(0, END)
-            self.Kolicina_entry.insert(END, (kurac[3]))
+            self.Kolicina_entry.insert(END, (book[3]))
             a = (datetime.date(datetime.now()))
             self.Datum_U_entry.delete(0, END)
             self.Datum_U_entry.insert(END,a)
@@ -564,7 +563,7 @@ class Biblioteka:
             self.Dani_entry.delete(0, END)
             self.Dani_entry.insert(END, "Mjesec dana")
             self.Kolicina_entry.delete(0, END)
-            self.Kolicina_entry.insert(END,str(kurac[3]))
+            self.Kolicina_entry.insert(END,str(book[3]))
 
         def Brisanje_Knjige():
 
